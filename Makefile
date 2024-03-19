@@ -2,7 +2,8 @@ CXX      ?= g++
 CXXFLAGS ?= -std=c++20
 LINK.o := $(LINK.cc) 
 
-CPPFLAGS ?= -O3  -I. -I${mkEigenInc} # -Wall
+
+CPPFLAGS ?= -O3 -Wall -I. -I${mkEigenInc}
 
 
 SRCS = $(wildcard *.cpp)
