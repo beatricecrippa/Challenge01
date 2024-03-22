@@ -3,7 +3,7 @@
 dimension = 2;
 
 # initial point from which to start the iterations
-initial_condition = '0,0';
+initial_condition = '1,1';
 
 # tolerance to control the step length
 tol_step = 1e-6;

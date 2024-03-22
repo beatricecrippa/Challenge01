@@ -12,18 +12,18 @@ tol_step = 1e-6;
 tol_residual = 1e-6;
 
 # initial value of alpha
-initial_alpha = 0.1;
+initial_alpha = 0.2;
 
 # value of the additional parameter of the method
 # it's the value of mu for exponential decay and inverse decay
 # it's the value of sigma for Armijo
-param = 0.3;
+param = 0.1;
 
 # maximum number of iterations
-max_iterations 1e5;   
+max_iterations = 1e4;   
 
 # Algorithm to implement the minimization, use:
 # 0 for gradient exponential decay method
 # 1 for gradient inverse decay method
 # 2 for gradient Armijo method
-method = 2;
+method = 0;

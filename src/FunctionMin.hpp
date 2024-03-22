@@ -3,7 +3,7 @@
 
 #include "Parameters.hpp"
 #include <cmath>
-#include <iostream>
+
 
 // function to calculate positive integer powers
 double int_pow(double val, unsigned pow){
@@ -44,7 +44,7 @@ point minimize(Parameters const & data, function_type const & fun, gradient_type
     unsigned k;
     for(k = 1; k < data.max_iterations && !converged; ++k){
 
-        // updating the graduent
+        // updating the gradient
         grad_curr = grad_fun(curr);
 
         // iteration step
@@ -80,7 +80,7 @@ point minimize(Parameters const & data, function_type const & fun, gradient_type
     } // end of for loop
 
     if(k == data.max_iterations)
-        std::cout << "Method " << method << " reached max iterations without converging" << std::endl;
+        std::cout << "Method reached max iterations without converging" << std::endl;
     else
         std::cout << "Method converged in " << k << " iterations, minimum: \n" << curr << std::endl;
 

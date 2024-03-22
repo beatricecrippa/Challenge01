@@ -15,12 +15,27 @@ point grad_fun(point const & x){
 
 int main(int argc, char **argv){
 
-    method_type method = gradient_Armijo;
+    GetPot command_line(argc, argv);
+    const std::string filename = command_line.follow("../examples/parameters.txt", 2, "-f", "--file");
 
-    Parameters data("../examples/parameters.txt");
+
+    Parameters data(filename);
+
+    if (data.method == gradient_exp){
+        std::cout << "Using gradient exponential decay method" << std::endl;
+        point min = minimize<gradient_exp>(data, fun, grad_fun);
+    }
+
+    if (data.method == gradient_inverse){
+        std::cout << "Using gradient inverse decay method" << std::endl;
+        point min = minimize<gradient_inverse>(data, fun, grad_fun);
+    }
     
-    if (method == gradient_Armijo)
+    if (data.method == gradient_Armijo){
+        std::cout << "Using gradient Armijo method" << std::endl;
         point min = minimize<gradient_Armijo>(data, fun, grad_fun);
+    }
+    
     
 
     return 0;

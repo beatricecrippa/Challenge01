@@ -3,7 +3,7 @@
 dimension = 2;
 
 # initial point from which to start the iterations
-initial_condition = '0,0';
+initial_condition = '0,1';
 
 # tolerance to control the step length
 tol_step = 1e-6;
@@ -17,7 +17,7 @@ initial_alpha = 0.1;
 # value of the additional parameter of the method
 # it's the value of mu for exponential decay and inverse decay
 # it's the value of sigma for Armijo
-param = 0.3;
+param = 0.2;
 
 # maximum number of iterations
 max_iterations 1e5;   
@@ -26,4 +26,4 @@ max_iterations 1e5;
 # 0 for gradient exponential decay method
 # 1 for gradient inverse decay method
 # 2 for gradient Armijo method
-method = 2;
+method = 1;

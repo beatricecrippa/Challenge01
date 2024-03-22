@@ -3,10 +3,21 @@
 
 #include <functional>
 #include <Eigen/Dense>
+#include <iostream>
+#include "GetPot"
 
 using point = Eigen::VectorXd;
 using function_type = std::function<double(point const &)>;
 using gradient_type = std::function<point(point const &)>;
+
+
+
+enum method_type{
+    gradient_exp,
+    gradient_inverse,
+    gradient_Armijo,
+};
+
 
 struct Parameters{
 
@@ -36,16 +47,15 @@ struct Parameters{
     // maximum number of iterations
     unsigned max_iterations;
 
+    // Algorithm to implement the minimization
+    method_type method;
     
 };
 
-
-enum method_type{
-    gradient_exp,
-    gradient_inverse,
-    gradient_Armijo,
-};
-
+// helper function used to read the initial condition using GetPot:
+// in the file .txt the initial condition is passed as a string, this function 
+// converts the string to a point
+void string_to_point(point& vec, const std::string& str);
 
 
 
