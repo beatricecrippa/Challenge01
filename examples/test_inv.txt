@@ -20,7 +20,7 @@ initial_alpha = 0.1;
 param = 0.2;
 
 # maximum number of iterations
-max_iterations 1e5;   
+max_iterations = 1e5;   
 
 # Algorithm to implement the minimization, use:
 # 0 for gradient exponential decay method

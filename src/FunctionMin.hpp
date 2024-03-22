@@ -5,15 +5,6 @@
 #include <cmath>
 
 
-// function to calculate positive integer powers
-double int_pow(double val, unsigned pow){
-    double res = val;
-    for(unsigned i = 1; i<pow; ++i)
-        res *= val;
-    return res;
-}
-
-
 
 // function used to update alpha using the Armijo rule
 // fun is the function to minimize, curr is the current point x_k, grad_curr is the gradient of the function evaluated at x_k
@@ -82,7 +73,7 @@ point minimize(Parameters const & data, function_type const & fun, gradient_type
     if(k == data.max_iterations)
         std::cout << "Method reached max iterations without converging" << std::endl;
     else
-        std::cout << "Method converged in " << k << " iterations, minimum: \n" << curr << std::endl;
+        std::cout << "Method converged in " << k << " iterations, minimizer point: \n" << curr << std::endl;
 
     return curr;   
 }

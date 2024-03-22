@@ -6,6 +6,7 @@ Parameters::Parameters(const std::string &filename)
 
     dimension = file("dimension", 2);
 
+    // initial condidion is contained in a string in the file
     initial_condition.resize(dimension);
     std::string tmp = file("initial_condition", "");
     string_to_point(initial_condition, tmp);

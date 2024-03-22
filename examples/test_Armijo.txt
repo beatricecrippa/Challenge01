@@ -1,15 +1,15 @@
 
 # dimension of the system 
-dimension = 2;
+dimension = 3;
 
 # initial point from which to start the iterations
-initial_condition = '1,1';
+initial_condition = '1,1,1';
 
 # tolerance to control the step length
-tol_step = 1e-6;
+tol_step = 1e-10;
 
 # tolerance to control the norm of the gradient
-tol_residual = 1e-6;
+tol_residual = 1e-10;
 
 # initial value of alpha
 initial_alpha = 0.1;
@@ -20,7 +20,7 @@ initial_alpha = 0.1;
 param = 0.3;
 
 # maximum number of iterations
-max_iterations 1e5;   
+max_iterations = 1e5;   
 
 # Algorithm to implement the minimization, use:
 # 0 for gradient exponential decay method

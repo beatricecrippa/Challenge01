@@ -1,6 +1,8 @@
 
 # dimension of the system 
 dimension = 2;
+# use dimension = 2 for the function in the text of the challenge
+# use dimension = 3 to test on another function defined in Functions.hpp
 
 # initial point from which to start the iterations
 initial_condition = '0,0';
@@ -20,7 +22,7 @@ initial_alpha = 0.1;
 param = 0.3;
 
 # maximum number of iterations
-max_iterations 1e5;   
+max_iterations = 1e5;   
 
 # Algorithm to implement the minimization, use:
 # 0 for gradient exponential decay method
