@@ -1,41 +1,18 @@
-#ifndef CHALLENGE01_FUNCTIONMIN_H_
-#define CHALLENGE01_FUNCTIONMIN_H_
+#ifndef FUNCTIONMIN_HPP_
+#define FUNCTIONMIN_HPP_
 
-#include <functional>
-#include <Eigen/Dense>
+#include "Parameters.hpp"
 #include <cmath>
 #include <iostream>
 
-typedef Eigen::VectorXd point;
-typedef std::function<double(point const &)> function_type;
-typedef std::function<point(point const &)> gradient_type;
+// function to calculate positive integer powers
+double int_pow(double val, unsigned pow){
+    double res = val;
+    for(unsigned i = 1; i<pow; ++i)
+        res *= val;
+    return res;
+}
 
-struct parameters{
-    point initial_condition;
-    double tol_step = 1e-6;
-    double tol_residual = 1e-6;
-    double initial_alpha;
-    double parameter;
-    unsigned max_iterations = 1e4;
-};
-
-/*
-enum gradient_type{
-    numerical,
-    analytical,
-};
-*/
-
-enum method_type{
-    gradient_exp,
-    gradient_inverse,
-    gradient_Armijo,
-};
-
-/*
-template<gradient_type gradient, method_type method>
-point minimize(parameters const & data, function_type const & fun, gradient_type const & grad_fun);
-*/
 
 
 // function used to update alpha using the Armijo rule
@@ -44,14 +21,10 @@ point minimize(parameters const & data, function_type const & fun, gradient_type
 double Armijo_alpha(function_type const & fun, point const & curr, point const & grad_curr, double alpha_0, double sigma, unsigned max_iter);
 
 
-// function to calculate positive integer powers
-double int_pow(double val, unsigned pow);
-
-
-
 // function that operates the minimization
+// data is a struct containing the parameters needed, fun is the function to minimize and grad_fun is its gradient
 template<method_type method>
-point minimize(parameters const & data, function_type const & fun, gradient_type const & grad_fun){
+point minimize(Parameters const & data, function_type const & fun, gradient_type const & grad_fun){
 
     // x_k and x_k+1
     point curr = data.initial_condition;
@@ -61,18 +34,15 @@ point minimize(parameters const & data, function_type const & fun, gradient_type
     point grad_curr = curr; // updated inside the loop
 
     // parameters
-    double alpha_0 = data.initial_alpha;
-    double alpha = alpha_0;
-    double par = data.parameter;
+    double alpha = data.initial_alpha;
 
     // variables used to check for convergence
     double step = 1;
     double residual = 1;
-    unsigned max_iter = data.max_iterations;
     bool converged = false;
     
     unsigned k;
-    for(k = 1; k < max_iter && !converged; ++k){
+    for(k = 1; k < data.max_iterations && !converged; ++k){
 
         // updating the graduent
         grad_curr = grad_fun(curr);
@@ -91,15 +61,15 @@ point minimize(parameters const & data, function_type const & fun, gradient_type
 
             // for the gradient method using the exponential decay rule
             if constexpr(method == gradient_exp)
-                alpha = alpha_0 * exp(-par*k);
+                alpha = data.initial_alpha * exp(-data.param*k);
 
             // for the gradient method using the inverse decay rule
             if constexpr(method == gradient_inverse)
-                alpha = alpha_0 / (1 + par*k);
+                alpha = data.initial_alpha / (1 + data.param*k);
 
             // for the gradient method using the Armijo rule
             if constexpr(method == gradient_Armijo)
-                alpha = Armijo_alpha(fun, curr, grad_curr, alpha_0, par, max_iter/10);
+                alpha = Armijo_alpha(fun, curr, grad_curr, data.initial_alpha, data.param, data.max_iterations/10);
                 // used arbitrary max_iterations
 
         }
@@ -109,7 +79,7 @@ point minimize(parameters const & data, function_type const & fun, gradient_type
 
     } // end of for loop
 
-    if(k == max_iter)
+    if(k == data.max_iterations)
         std::cout << "Method " << method << " reached max iterations without converging" << std::endl;
     else
         std::cout << "Method converged in " << k << " iterations, minimum: \n" << curr << std::endl;
@@ -117,4 +87,22 @@ point minimize(parameters const & data, function_type const & fun, gradient_type
     return curr;   
 }
 
-#endif /* CHALLENGE01_FUNCTIONMIN_H_ */
+
+double Armijo_alpha(function_type const & fun, point const & curr, point const & grad_curr, double alpha_0, double sigma, unsigned max_iter){
+
+    double fun_curr = fun(curr);
+    double norm_sq = grad_curr.norm()*grad_curr.norm();
+    unsigned it = 0;
+    while( ((fun_curr - fun(curr - alpha_0*grad_curr)) < sigma*alpha_0*norm_sq) && it < max_iter ){
+        alpha_0 /= 2;
+        ++it;
+    }
+    if (it == max_iter)
+        std::cerr << "calculation of alpha for Armijo did not converge, alpha: " << alpha_0 << std::endl;
+
+    return alpha_0;
+}
+
+
+
+#endif /* FUNCTIONMIN_HPP_ */

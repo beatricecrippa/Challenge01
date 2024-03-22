@@ -1,5 +1,6 @@
 #include "FunctionMin.hpp"
 
+
 double fun(point const & x){
     return x(0)*x(1) + 4*int_pow(x(0),4) + int_pow(x(1),2) + 3*x(0);
 }
@@ -11,19 +12,16 @@ point grad_fun(point const & x){
     return y;
 }
 
-int main(){
 
-    const method_type method = gradient_Armijo;
-    const unsigned dim = 2;
+int main(int argc, char **argv){
 
-    parameters data;
-    data.initial_alpha = 0.1;
-    data.initial_condition.resize(dim);
-    data.initial_condition << 0,0;
-    data.parameter = 0.2;
-    // data.max_iterations = 10;
+    method_type method = gradient_Armijo;
 
-    point min = minimize<method>(data, fun, grad_fun);
+    Parameters data("../examples/parameters.txt");
+    
+    if (method == gradient_Armijo)
+        point min = minimize<gradient_Armijo>(data, fun, grad_fun);
+    
 
     return 0;
 }
