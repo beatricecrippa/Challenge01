@@ -1,0 +1,5 @@
+The README is complete and the instructions are clear.
+I appreciate the presence of examples to test the code.
+
+The code is clear, well commented and organized.
+Good job with the template function and the 3D case!
